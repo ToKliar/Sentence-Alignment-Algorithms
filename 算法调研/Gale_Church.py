@@ -44,7 +44,7 @@ def align(paragraph1, paragraph2):
                 align_dp[i][j] = (float('inf'), 0, 0)
                 for (di, dj), match_prob in match.items():
                     if i - di >= 0 and j - dj >= 0:
-                        align_dp[i][j] = min(align_dp[i][j], (align_dp[i-di, j-dj][0] + distance(paragraph1[i-di:i],paragraph2[j-dj:j],match_prob), di, dj))
+                        align_dp[i][j] = min(align_dp[i][j], (align_dp[i-di][j-dj][0] + distance(paragraph1[i-di:i],paragraph2[j-dj:j],match_prob), di, dj))
     
     segment_seq = []
     x, y = len(paragraph1), len(paragraph2)
@@ -52,7 +52,7 @@ def align(paragraph1, paragraph2):
         (c, dx, dy) = align_dp[x][y]
         if dx == dy and dx == 0:
             break
-        segment_seq.append(["".join(paragraph1[x-dx:x], "".join(paragraph2[y-dy:y]))])
+        segment_seq.append(["".join(paragraph1[x-dx:x]), "".join(paragraph2[y-dy:y])])
         x -= dx
         y -= dy
 
